@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Eid Mubarak - Interactive Experience with Mini</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Scene -->
+    <div class="scene-background" id="scene-background">
+        <!-- Twinkling Stars -->
+        <div class="stars-container">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+        </div>
+
+        <!-- Moon -->
+        <div class="moon">
+            <div class="moon-glow"></div>
+        </div>
+
+        <!-- Clouds -->
+        <div class="clouds-container">
+            <div class="cloud cloud-1">☁️</div>
+            <div class="cloud cloud-2">☁️</div>
+            <div class="cloud cloud-3">☁️</div>
+        </div>
+
+        <!-- Lanterns -->
+        <div class="lanterns-container">
+            <div class="lantern lantern-1">🏮</div>
+            <div class="lantern lantern-2">🏮</div>
+            <div class="lantern lantern-3">🏮</div>
+        </div>
+
+        <!-- Mosque -->
+        <div class="mosque-icon">🕌</div>
+
+        <!-- DJ Beats Overlay (Hidden until music plays) -->
+        <div class="dj-beats" id="dj-beats"></div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="content-container">
+        <!-- Mini Cat Character (Always Visible) -->
+        <div class="mini-container" id="mini-container">
+            <div class="cat-display" id="mini">
+                <div class="cat-emoji">🐱</div>
+            </div>
+            <div class="speech-bubble" id="speech-bubble">
+                <p>Hi there! I'm Mini! 🐱✨</p>
+            </div>
+        </div>
+
+        <!-- Main interaction area -->
+        <div class="interactions-area" id="interactions-area">
+            
+            <!-- Envelope -->
+            <div class="envelope-container" id="envelope-container">
+                <div class="envelope" id="envelope">
+                    <div class="envelope-front">✉️</div>
+                </div>
+                <div class="letter" id="letter">
+                    <button class="close-letter-btn" id="close-letter-btn">✕</button>
+                    <div class="letter-content">
+                        <h2>Eid Mubarak! 🌙</h2>
+                        <p>Dear Friend,</p>
+                        <p>Welcome to this special Eid celebration!</p>
+                        <p>May this blessed Eid bring you endless joy and prosperity! May Allah bless you!</p>
+                        <p>With love,<br><strong>Mini</strong> 🐱✨</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gift Button -->
+            <button class="gift-button" id="gift-button" style="display: none;">
+                🎁 Gift for You!
+            </button>
+
+            <!-- Gift Box -->
+            <div class="gift-box-container" id="gift-box-container" style="display: none;">
+                <div class="gift-box" id="gift-box">
+                    <div class="gift-box-top"></div>
+                    <div class="gift-box-body"></div>
+                    <div class="gift-ribbon"></div>
+                    <div class="gift-bow">🎀</div>
+                </div>
+                <div class="gift-opened" id="gift-opened" style="display: none;">
+                    <button class="close-gift-btn" id="close-gift-btn">✕</button>
+                    <div class="virtual-reward">
+                        <p class="reward-emoji">💝✨</p>
+                        <p class="reward-title">Eid Gift for You!</p>
+                        <p class="reward-amount">$500</p>
+                        <p class="reward-message">Thank you for being special! 🌙💖</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Effect Buttons -->
+            <div class="buttons-container" id="buttons-container" style="display: none;">
+                <button class="effect-btn fireworks-btn" id="fireworks-btn">🎆 Fireworks</button>
+                <button class="effect-btn confetti-btn" id="confetti-btn">🎊 Confetti</button>
+                <button class="effect-btn sparkles-btn" id="sparkles-btn">✨ Sparkles</button>
+                <button class="effect-btn hearts-btn" id="hearts-btn">💖 Hearts</button>
+            </div>
+
+            <!-- Music Player -->
+            <div class="music-player" id="music-player" style="display: none;">
+                <button class="music-btn" id="music-btn">
+                    <span class="music-icon">🎵</span>
+                    <span class="music-text">Your Fav Song 🎶</span>
+                </button>
+                <audio id="audio-player" style="display: none;">
+                    <source src="blackSwan.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+
+        <!-- Confetti Container -->
+        <div class="confetti-container" id="confetti-container"></div>
+
+        <!-- Floating Hearts Container -->
+        <div class="hearts-container" id="hearts-container"></div>
+
+        <!-- Fireworks Container -->
+        <div class="fireworks-container" id="fireworks-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

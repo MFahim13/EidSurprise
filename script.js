@@ -302,13 +302,14 @@ function openGiftBox() {
 
   const giftBox = document.getElementById("gift-box");
   const giftOpened = document.getElementById("gift-opened");
+  const rewardCard = document.getElementById("reward-card");
 
   giftBox.classList.remove("shake");
   giftBox.classList.add("open");
 
   // Create big celebration
   createConfetti(100);
-  createFireworks(150); // Increased for denser effect
+  createFireworks(150);
 
   // Fade out gift box completely
   setTimeout(() => {
@@ -318,24 +319,32 @@ function openGiftBox() {
     giftBox.style.pointerEvents = "none";
   }, 300);
 
-  // Show reward with animation
+  // Tulips and chocolates fly away
   setTimeout(() => {
     giftOpened.style.display = "block";
-    speakWithBubble("Eid gift for you! 💖 You're special! ✨");
-
-    // Setup close button
-    const closeBtn = document.getElementById("close-gift-btn");
-    closeBtn.addEventListener("click", closeGiftCard);
-    closeBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      closeGiftCard();
-    });
+    createFlyingTulipsAndChocolates(30); // Increased count for more items
+    createFlyingChocolates(25); // Increased count for more items
+    speakWithBubble("Tulips and chocolates flying! 🌷🍫");
 
     // Make Mini dance
     const mini = document.getElementById("mini");
     mini.classList.add("dance");
     setTimeout(() => mini.classList.remove("dance"), 1000);
   }, 500);
+
+  // After items fly away, display the reward card
+  setTimeout(() => {
+    rewardCard.style.display = "block";
+    speakWithBubble("And the money gift! 💖 You're special! ✨");
+    
+    // Setup close button only on reward card
+    const closeBtn = document.getElementById("close-gift-btn");
+    closeBtn.addEventListener("click", closeGiftCard);
+    closeBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      closeGiftCard();
+    });
+  }, 2500);
 }
 
 function closeGiftCard() {
@@ -370,12 +379,22 @@ function showInteractionButtons() {
 }
 
 function setupEffectButtons() {
+  console.log("setupEffectButtons called");
   const fireworksBtn = document.getElementById("fireworks-btn");
   const confettiBtn = document.getElementById("confetti-btn");
   const sparklesBtn = document.getElementById("sparkles-btn");
   const heartsBtn = document.getElementById("hearts-btn");
+  const tulipsBtn = document.getElementById("tulips-btn");
 
-  if (!fireworksBtn || !confettiBtn || !sparklesBtn || !heartsBtn) {
+  console.log("Button references:", {
+    fireworksBtn,
+    confettiBtn,
+    sparklesBtn,
+    heartsBtn,
+    tulipsBtn,
+  });
+
+  if (!fireworksBtn || !confettiBtn || !sparklesBtn || !heartsBtn || !tulipsBtn) {
     console.error("One or more buttons not found");
     return;
   }
@@ -404,17 +423,25 @@ function setupEffectButtons() {
     speakWithBubble("So sweet! 💖");
   };
 
+  const handleTulips = (e) => {
+    if (e) e.preventDefault();
+    createFloatingTulipsAndRoses(30);
+    speakWithBubble("Beautiful tulips! 🌷");
+  };
+
   // Remove any existing listeners
   fireworksBtn.replaceWith(fireworksBtn.cloneNode(true));
   confettiBtn.replaceWith(confettiBtn.cloneNode(true));
   sparklesBtn.replaceWith(sparklesBtn.cloneNode(true));
   heartsBtn.replaceWith(heartsBtn.cloneNode(true));
+  tulipsBtn.replaceWith(tulipsBtn.cloneNode(true));
 
   // Get fresh references
   const newFireworksBtn = document.getElementById("fireworks-btn");
   const newConfettiBtn = document.getElementById("confetti-btn");
   const newSparklesBtn = document.getElementById("sparkles-btn");
   const newHeartsBtn = document.getElementById("hearts-btn");
+  const newTulipsBtn = document.getElementById("tulips-btn");
 
   newFireworksBtn.addEventListener("click", handleFireworks);
   newFireworksBtn.addEventListener("touchstart", handleFireworks);
@@ -427,6 +454,9 @@ function setupEffectButtons() {
 
   newHeartsBtn.addEventListener("click", handleHearts);
   newHeartsBtn.addEventListener("touchstart", handleHearts);
+
+  newTulipsBtn.addEventListener("click", handleTulips);
+  newTulipsBtn.addEventListener("touchstart", handleTulips);
 }
 
 // ============= CONFETTI EFFECT =============
@@ -558,6 +588,129 @@ function createFloatingHearts(count) {
       // Remove after animation
       setTimeout(() => heart.remove(), 4000);
     }, i * 80);
+  }
+}
+
+// ============= FLOATING TULIPS AND ROSES =============
+
+function createFloatingTulipsAndRoses(count) {
+  const container = document.getElementById("hearts-container");
+  const flowers = ["💐", "🌸", "🌷"];
+
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const flower = document.createElement("div");
+      flower.className = "floating-flower";
+      flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+
+      const x = Math.random() * window.innerWidth;
+      const y = window.innerHeight + 20;
+
+      flower.style.left = x + "px";
+      flower.style.top = y + "px";
+
+      container.appendChild(flower);
+
+      // Remove after animation
+      setTimeout(() => flower.remove(), 4000);
+    }, i * 80);
+  }
+}
+
+// ============= FLYING GIFT ITEMS =============
+
+function createFlyingTulipsAndChocolates(count) {
+  const container = document.getElementById("hearts-container");
+  const giftBox = document.getElementById("gift-box");
+  const giftRect = giftBox.getBoundingClientRect();
+  
+  // Mix of tulips and mixed flowers
+  const flowers = ["🌷", "🌸", "💐"];
+  
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const tulip = document.createElement("div");
+      tulip.className = "flying-tulip";
+      tulip.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+      
+      // Start from gift box center with slight random offset
+      const startX = giftRect.left + giftRect.width / 2;
+      const startY = giftRect.top + giftRect.height / 2;
+      const offsetX = (Math.random() - 0.5) * 50;
+      const offsetY = (Math.random() - 0.5) * 50;
+      
+      tulip.style.left = (startX + offsetX) + "px";
+      tulip.style.top = (startY + offsetY) + "px";
+      
+      // Random angle for dispersion (maximum spread outward)
+      const angle = (Math.random() * Math.PI * 2);
+      const distance = 750 + Math.random() * 400; // Spread distance
+      const endOffsetX = Math.cos(angle) * distance;
+      const endOffsetY = Math.sin(angle) * distance - 500; // Move more upward
+      
+      // Set animation values as px values for left/top animation
+      const endX = startX + offsetX + endOffsetX;
+      const endY = startY + offsetY + endOffsetY;
+      
+      tulip.style.setProperty("--endX", endX + "px");
+      tulip.style.setProperty("--endY", endY + "px");
+      tulip.style.setProperty("--rotation", Math.random() * 360);
+      
+      container.appendChild(tulip);
+      
+      // Trigger animation
+      tulip.offsetHeight; // Force reflow
+      tulip.classList.add("flying");
+      
+      // Remove after animation
+      setTimeout(() => tulip.remove(), 2000);
+    }, i * 30);
+  }
+}
+
+function createFlyingChocolates(count) {
+  const container = document.getElementById("hearts-container");
+  const giftBox = document.getElementById("gift-box");
+  const giftRect = giftBox.getBoundingClientRect();
+  
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const chocolate = document.createElement("div");
+      chocolate.className = "flying-chocolate";
+      chocolate.textContent = "🍫";
+      
+      // Start from gift box center with slight random offset
+      const startX = giftRect.left + giftRect.width / 2;
+      const startY = giftRect.top + giftRect.height / 2;
+      const offsetX = (Math.random() - 0.5) * 50;
+      const offsetY = (Math.random() - 0.5) * 50;
+      
+      chocolate.style.left = (startX + offsetX) + "px";
+      chocolate.style.top = (startY + offsetY) + "px";
+      
+      // Random angle for dispersion with maximum spread
+      const angle = (Math.random() * Math.PI * 2);
+      const distance = 720 + Math.random() * 420; // Spread distance
+      const endOffsetX = Math.cos(angle) * distance;
+      const endOffsetY = Math.sin(angle) * distance - 520; // Move more upward
+      
+      // Set animation values as px values for left/top animation
+      const endX = startX + offsetX + endOffsetX;
+      const endY = startY + offsetY + endOffsetY;
+      
+      chocolate.style.setProperty("--endX", endX + "px");
+      chocolate.style.setProperty("--endY", endY + "px");
+      chocolate.style.setProperty("--rotation", Math.random() * 720); // More rotation for chocolates
+      
+      container.appendChild(chocolate);
+      
+      // Trigger animation
+      chocolate.offsetHeight; // Force reflow
+      chocolate.classList.add("flying");
+      
+      // Remove after animation
+      setTimeout(() => chocolate.remove(), 2000);
+    }, i * 25);
   }
 }
 

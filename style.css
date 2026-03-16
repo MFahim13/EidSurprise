@@ -673,7 +673,9 @@ button:active {
   color: #333;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(0px) rotate(-10deg);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(80px) rotate(-10deg);
   display: none;
   z-index: 100;
   overflow: visible;
@@ -724,22 +726,22 @@ button:active {
 @keyframes letterSlideOut {
   0% {
     opacity: 0;
-    transform: translateY(0px) rotate(-10deg);
+    transform: translate(-50%, -50%) translateY(80px) rotate(-10deg);
   }
   100% {
     opacity: 1;
-    transform: translateY(-160px) rotate(0deg);
+    transform: translate(-50%, -50%) translateY(-80px) rotate(0deg);
   }
 }
 
 @keyframes letterSlideIn {
   0% {
     opacity: 1;
-    transform: translateY(-160px) rotate(0deg);
+    transform: translate(-50%, -50%) translateY(-80px) rotate(0deg);
   }
   100% {
     opacity: 0;
-    transform: translateY(0px) rotate(-10deg);
+    transform: translate(-50%, -50%) translateY(80px) rotate(-10deg);
     display: none;
   }
 }

@@ -19,12 +19,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initializePage() {
-  // Mini introduces herself
+  // Mini introduces herself with enthusiasm
   speakWithBubble("Hi there! I'm Mini! 🐱✨");
+  
+  setTimeout(() => {
+    speakWithBubble("Welcome to your Eid celebration! 🌙💖");
+  }, 2000);
+  
+  setTimeout(() => {
+    speakWithBubble("I have something special waiting for you... ✉️");
+  }, 4200);
 
   // Show envelope immediately as website loads
-  showEnvelope();
-  speakWithBubble("Look! I have a special message for you! ✉️");
+  setTimeout(() => {
+    showEnvelope();
+  }, 6000);
 
   // Setup interactions
   setupMiniInteractions();
@@ -158,6 +167,9 @@ function showEnvelope() {
   gameState.envelopeShown = true;
   gameState.currentStep = 1;
 
+  const envelopeContainer = document.getElementById("envelope-container");
+  envelopeContainer.style.display = "block";
+
   const envelope = document.getElementById("envelope");
   envelope.addEventListener("click", openEnvelope);
   envelope.addEventListener("touchstart", (e) => {
@@ -182,9 +194,9 @@ function openEnvelope() {
   // Create sparkles effect
   createSparkles(20);
 
-  // Trigger letter animation (slide out)
-  letter.classList.remove("hide");
+  // Trigger letter animation (slide out from envelope)
   letter.classList.add("show");
+  letter.offsetHeight; // Force reflow to ensure animation triggers
 
   speakWithBubble("Here's your message! 💌✨");
 

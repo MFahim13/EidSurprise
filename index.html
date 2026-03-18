@@ -10,6 +10,14 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+      <div class="loading-content">
+        <div class="loading-emoji">✨</div>
+        <h1>Sprinkling Eid Magic...</h1>
+      </div>
+    </div>
+
     <!-- Background Scene -->
     <div class="scene-background" id="scene-background">
       <!-- Twinkling Stars -->
@@ -158,7 +166,7 @@
             <span class="music-icon">🎵</span>
             <span class="music-text">♪ Your Fav Song ♪</span>
           </button>
-          <audio id="audio-player">
+          <audio id="audio-player" preload="auto">
             <source
               src="blackSwan.mp3"
               type="audio/mpeg"

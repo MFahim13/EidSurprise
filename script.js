@@ -13,10 +13,29 @@ let gameState = {
 
 // ============= INITIALIZATION =============
 document.addEventListener("DOMContentLoaded", () => {
+  // Set default audio volume to 50% to avoid loud jump-scare
+  const audioPlayer = document.getElementById("audio-player");
+  if (audioPlayer) {
+    audioPlayer.volume = 0.5;
+  }
+
   setTimeout(() => {
-    initializePage();
-  }, 50);
+    fadeOutLoadingScreen();
+  }, 1500);
 });
+
+function fadeOutLoadingScreen() {
+  const loadingScreen = document.getElementById("loading-screen");
+  if (loadingScreen) {
+    loadingScreen.classList.add("fade-out");
+    setTimeout(() => {
+      loadingScreen.remove();
+      initializePage();
+    }, 800);
+  } else {
+    initializePage();
+  }
+}
 
 function initializePage() {
   // Mini introduces herself with enthusiasm
@@ -336,7 +355,6 @@ function openGiftBox() {
     giftOpened.style.display = "block";
     createFlyingTulipsAndChocolates(30); // Increased count for more items
     createFlyingChocolates(25); // Increased count for more items
-    speakWithBubble("Tulips and chocolates flying! 🌷🍫");
 
     // Make Mini dance
     const mini = document.getElementById("mini");
@@ -347,7 +365,6 @@ function openGiftBox() {
   // After items fly away, display the reward card
   setTimeout(() => {
     rewardCard.style.display = "block";
-    speakWithBubble("And the money gift! 💖 You're special! ✨");
     
     // Setup close button only on reward card
     const closeBtn = document.getElementById("close-gift-btn");

@@ -11,6 +11,46 @@ let gameState = {
   isDJMode: false,
 };
 
+// ============= iOS HAPTIC FEEDBACK HELPER =============
+/**
+ * Trigger haptic vibration optimized for iOS and Android
+ * iOS uses stronger patterns; Android uses standard Vibration API
+ */
+function triggerHaptic(pattern) {
+  if (!navigator.vibrate && !navigator.webkitVibrate) {
+    return; // Vibration not supported
+  }
+
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const vibrateAPI = navigator.vibrate || navigator.webkitVibrate;
+
+  if (isIOS) {
+    // iOS: Amplify pattern for stronger feedback (iOS haptics are subtle)
+    const amplifiedPattern = pattern.map((val, idx) => {
+      // Amplify pauses more than vibrations for better iOS feedback
+      return idx % 2 === 0 ? Math.min(val * 1.5, 200) : val * 1.2;
+    });
+    try {
+      vibrateAPI.call(navigator, amplifiedPattern);
+    } catch (e) {
+      // Fallback: single strong vibration
+      try {
+        vibrateAPI.call(navigator, [100]);
+      } catch (err) {
+        console.log("Vibration not supported on this device");
+      }
+    }
+  } else {
+    // Android: Use pattern as-is
+    try {
+      vibrateAPI.call(navigator, pattern);
+    } catch (e) {
+      console.log("Vibration error:", e);
+    }
+  }
+}
+
 // ============= INITIALIZATION =============
 document.addEventListener("DOMContentLoaded", () => {
   // Set default audio volume to 50% to avoid loud jump-scare
@@ -30,21 +70,48 @@ function fadeOutLoadingScreen() {
     loadingScreen.classList.add("fade-out");
     setTimeout(() => {
       loadingScreen.remove();
+      setDynamicGreeting();
       initializePage();
     }, 800);
   } else {
+    setDynamicGreeting();
     initializePage();
   }
+}
+
+// ============= DYNAMIC TIME-BASED GREETING =============
+function setDynamicGreeting() {
+  const greetingElement = document.getElementById("dynamic-greeting");
+  if (!greetingElement) return;
+
+  const currentHour = new Date().getHours();
+  let greeting = "";
+
+  if (currentHour >= 5 && currentHour < 12) {
+    // Morning: 5 AM - 12 PM
+    greeting = "Good Morning, Ayat 🩷 🌅";
+  } else if (currentHour >= 12 && currentHour < 17) {
+    // Afternoon: 12 PM - 5 PM
+    greeting = "Good Afternoon, Ayat 🩷 ☀️";
+  } else if (currentHour >= 17 && currentHour < 21) {
+    // Evening: 5 PM - 9 PM
+    greeting = "Good Evening, Ayat 🩷 🌆";
+  } else {
+    // Night: 9 PM - 5 AM
+    greeting = "Good Night, Ayat 🩷 🌙";
+  }
+
+  greetingElement.textContent = greeting;
 }
 
 function initializePage() {
   // Mini introduces herself with enthusiasm
   speakWithBubble("Hi there! I'm Mini! 🐱✨");
-  
+
   setTimeout(() => {
     speakWithBubble("Welcome to your Eid celebration! 🌙💖");
   }, 2000);
-  
+
   setTimeout(() => {
     speakWithBubble("I have something special waiting for you... ✉️");
   }, 4200);
@@ -95,6 +162,9 @@ function setupMiniInteractions() {
 }
 
 function handleMiniTap() {
+  // Haptic feedback: Light tap for cat click
+  triggerHaptic([10, 5, 10]);
+
   jumpCat();
   gameState.catTapCount++;
 
@@ -115,6 +185,9 @@ function handleMiniTap() {
   if (gameState.catTapCount === 5) {
     triggerHeartExplosion();
     gameState.catTapCount = 0;
+
+    // Haptic feedback: Special vibration for secret tap explosion
+    triggerHaptic([100, 50, 100, 50, 100]);
   }
 }
 
@@ -199,6 +272,9 @@ function showEnvelope() {
 
 function openEnvelope() {
   if (gameState.envelopeOpened) return;
+
+  // Haptic feedback: Gentle vibration for envelope opening
+  triggerHaptic([20, 15, 25]);
 
   gameState.envelopeOpened = true;
   gameState.currentStep = 2;
@@ -287,6 +363,9 @@ function showGiftButton() {
 }
 
 function handleGiftButtonClick() {
+  // Haptic feedback: Medium vibration for gift button click
+  triggerHaptic([25, 10, 25, 10, 30]);
+
   const giftButton = document.getElementById("gift-button");
   giftButton.style.display = "none";
 
@@ -338,6 +417,9 @@ function openGiftBox() {
   giftBox.classList.remove("shake");
   giftBox.classList.add("open");
 
+  // Haptic feedback: Strong vibration pattern for gift opening celebration
+  triggerHaptic([30, 10, 30, 10, 50]); // Pattern: strong celebration
+
   // Create big celebration
   createConfetti(100);
   createFireworks(150);
@@ -365,7 +447,7 @@ function openGiftBox() {
   // After items fly away, display the reward card
   setTimeout(() => {
     rewardCard.style.display = "block";
-    
+
     // Setup close button only on reward card
     const closeBtn = document.getElementById("close-gift-btn");
     closeBtn.addEventListener("click", closeGiftCard);
@@ -408,23 +490,19 @@ function showInteractionButtons() {
 }
 
 function setupEffectButtons() {
-  console.log("setupEffectButtons called");
   const fireworksBtn = document.getElementById("fireworks-btn");
   const confettiBtn = document.getElementById("confetti-btn");
   const sparklesBtn = document.getElementById("sparkles-btn");
   const heartsBtn = document.getElementById("hearts-btn");
   const tulipsBtn = document.getElementById("tulips-btn");
 
-  console.log("Button references:", {
-    fireworksBtn,
-    confettiBtn,
-    sparklesBtn,
-    heartsBtn,
-    tulipsBtn,
-  });
-
-  if (!fireworksBtn || !confettiBtn || !sparklesBtn || !heartsBtn || !tulipsBtn) {
-    console.error("One or more buttons not found");
+  if (
+    !fireworksBtn ||
+    !confettiBtn ||
+    !sparklesBtn ||
+    !heartsBtn ||
+    !tulipsBtn
+  ) {
     return;
   }
 
@@ -432,16 +510,24 @@ function setupEffectButtons() {
     if (e) e.preventDefault();
     createFireworks(120); // Increased for denser effect
     speakWithBubble("Boom! 🎆");
+
+    // Haptic feedback: Intense rapid vibration for fireworks
+    triggerHaptic([50, 30, 50, 30, 50]);
   };
 
   const handleConfetti = (e) => {
     if (e) e.preventDefault();
     createConfetti(100);
     speakWithBubble("Yay! 🎊");
+
+    // Haptic feedback: Quick short vibration for confetti
+    triggerHaptic([20, 10, 20]);
   };
 
   const handleSparkles = (e) => {
     if (e) e.preventDefault();
+    // Haptic feedback: Sparkly light vibration
+    triggerHaptic([12, 8, 12, 8, 12]);
     createSparkles(50);
     speakWithBubble("So magical! ✨");
   };
@@ -450,10 +536,15 @@ function setupEffectButtons() {
     if (e) e.preventDefault();
     createFloatingHearts(30);
     speakWithBubble("So sweet! 💖");
+
+    // Haptic feedback: Soft gentle pulse for hearts
+    triggerHaptic([15, 15, 15, 15, 15]);
   };
 
   const handleTulips = (e) => {
     if (e) e.preventDefault();
+    // Haptic feedback: Gentle romantic vibration for flowers
+    triggerHaptic([18, 12, 18, 12, 20]);
     createFloatingTulipsAndRoses(30);
     speakWithBubble("Beautiful tulips! 🌷");
   };
@@ -652,45 +743,45 @@ function createFlyingTulipsAndChocolates(count) {
   const container = document.getElementById("hearts-container");
   const giftBox = document.getElementById("gift-box");
   const giftRect = giftBox.getBoundingClientRect();
-  
+
   // Mix of tulips and mixed flowers
   const flowers = ["🌷", "🌸", "💐"];
-  
+
   for (let i = 0; i < count; i++) {
     setTimeout(() => {
       const tulip = document.createElement("div");
       tulip.className = "flying-tulip";
       tulip.textContent = flowers[Math.floor(Math.random() * flowers.length)];
-      
+
       // Start from gift box center with slight random offset
       const startX = giftRect.left + giftRect.width / 2;
       const startY = giftRect.top + giftRect.height / 2;
       const offsetX = (Math.random() - 0.5) * 50;
       const offsetY = (Math.random() - 0.5) * 50;
-      
-      tulip.style.left = (startX + offsetX) + "px";
-      tulip.style.top = (startY + offsetY) + "px";
-      
+
+      tulip.style.left = startX + offsetX + "px";
+      tulip.style.top = startY + offsetY + "px";
+
       // Random angle for dispersion (maximum spread outward)
-      const angle = (Math.random() * Math.PI * 2);
+      const angle = Math.random() * Math.PI * 2;
       const distance = 750 + Math.random() * 400; // Spread distance
       const endOffsetX = Math.cos(angle) * distance;
       const endOffsetY = Math.sin(angle) * distance - 500; // Move more upward
-      
+
       // Set animation values as px values for left/top animation
       const endX = startX + offsetX + endOffsetX;
       const endY = startY + offsetY + endOffsetY;
-      
+
       tulip.style.setProperty("--endX", endX + "px");
       tulip.style.setProperty("--endY", endY + "px");
       tulip.style.setProperty("--rotation", Math.random() * 360);
-      
+
       container.appendChild(tulip);
-      
+
       // Trigger animation
       tulip.offsetHeight; // Force reflow
       tulip.classList.add("flying");
-      
+
       // Remove after animation
       setTimeout(() => tulip.remove(), 2000);
     }, i * 30);
@@ -701,42 +792,42 @@ function createFlyingChocolates(count) {
   const container = document.getElementById("hearts-container");
   const giftBox = document.getElementById("gift-box");
   const giftRect = giftBox.getBoundingClientRect();
-  
+
   for (let i = 0; i < count; i++) {
     setTimeout(() => {
       const chocolate = document.createElement("div");
       chocolate.className = "flying-chocolate";
       chocolate.textContent = "🍫";
-      
+
       // Start from gift box center with slight random offset
       const startX = giftRect.left + giftRect.width / 2;
       const startY = giftRect.top + giftRect.height / 2;
       const offsetX = (Math.random() - 0.5) * 50;
       const offsetY = (Math.random() - 0.5) * 50;
-      
-      chocolate.style.left = (startX + offsetX) + "px";
-      chocolate.style.top = (startY + offsetY) + "px";
-      
+
+      chocolate.style.left = startX + offsetX + "px";
+      chocolate.style.top = startY + offsetY + "px";
+
       // Random angle for dispersion with maximum spread
-      const angle = (Math.random() * Math.PI * 2);
+      const angle = Math.random() * Math.PI * 2;
       const distance = 720 + Math.random() * 420; // Spread distance
       const endOffsetX = Math.cos(angle) * distance;
       const endOffsetY = Math.sin(angle) * distance - 520; // Move more upward
-      
+
       // Set animation values as px values for left/top animation
       const endX = startX + offsetX + endOffsetX;
       const endY = startY + offsetY + endOffsetY;
-      
+
       chocolate.style.setProperty("--endX", endX + "px");
       chocolate.style.setProperty("--endY", endY + "px");
       chocolate.style.setProperty("--rotation", Math.random() * 720); // More rotation for chocolates
-      
+
       container.appendChild(chocolate);
-      
+
       // Trigger animation
       chocolate.offsetHeight; // Force reflow
       chocolate.classList.add("flying");
-      
+
       // Remove after animation
       setTimeout(() => chocolate.remove(), 2000);
     }, i * 25);
@@ -804,6 +895,9 @@ function setupMusicPlayer() {
 }
 
 function toggleMusic(btn, player, bg) {
+  // Haptic feedback: Music button click
+  triggerHaptic([30, 20, 30]);
+
   if (gameState.isPlaying) {
     player.pause();
   } else {

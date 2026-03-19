@@ -6,6 +6,20 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
+    <!-- iOS Web App Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Eid Mubarak" />
+    
+    <meta name="title" content="🌙 Eid Mubarak, Bestie!" />
+    <meta name="description" content="I made a little interactive surprise for you. Tap to open!" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mfahim13.github.io/EidSurprise/" />
+    <meta property="og:title" content="🌙 Eid Mubarak, Bestie!" />
+    <meta property="og:description" content="I made a little interactive surprise for you. Tap to open!" />
+    <meta property="og:image" content="preview.jpg" />
+
     <title>Eid Mubarak - Interactive Experience with Mini</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -62,6 +76,9 @@
 
     <!-- Main Content Container -->
     <div class="content-container">
+      <!-- Dynamic Time-Based Greeting -->
+      <div class="dynamic-greeting" id="dynamic-greeting">Good morning, Ayat! 🌅</div>
+      
       <!-- Mini Cat Character (Always Visible) -->
       <div class="mini-container" id="mini-container">
         <div class="cat-display" id="mini">
@@ -80,7 +97,7 @@
             <div class="envelope-front">✉️</div>
           </div>
           <div class="letter" id="letter">
-            <button class="close-letter-btn" id="close-letter-btn">✕</button>
+            <button class="close-letter-btn" id="close-letter-btn" aria-label="Close letter">✕</button>
             <div class="letter-content">
               <h2>🌙 Eid Mubarak, My Dear Bestie.</h2>
               <p>
@@ -113,7 +130,7 @@
             <div class="gift-bow">🎀</div>
           </div>
           <div class="gift-opened" id="gift-opened" style="display: none">
-            <button class="close-gift-btn" id="close-gift-btn">✕</button>
+            <button class="close-gift-btn" id="close-gift-btn" aria-label="Close gift card">✕</button>
 
             <!-- Unified Bouquet Display (emerges from gift) -->
             <div

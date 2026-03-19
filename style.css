@@ -417,6 +417,7 @@ button:active {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  padding-top: 80px;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
@@ -1601,6 +1602,10 @@ button:active {
     font-size: 0.95rem;
   }
 
+  .content-container {
+    padding-top: 70px;
+  }
+
   /* Minimal changes - keep near desktop proportions */
   .content-container {
     padding: 15px;
@@ -1733,6 +1738,7 @@ button:active {
 @media (min-width: 481px) and (max-width: 768px) {
   .content-container {
     padding: 25px;
+    padding-top: 80px;
   }
 
   .interactions-area {

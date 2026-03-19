@@ -425,7 +425,7 @@ button:active {
 /* ============= MINI CAT CHARACTER ============= */
 
 .dynamic-greeting {
-  position: absolute;
+  position: fixed;
   top: 20px;
   left: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -1596,9 +1596,9 @@ button:active {
 @media (max-width: 480px) {
   /* Dynamic greeting - smaller on mobile */
   .dynamic-greeting {
-    top: 15px;
-    left: 15px;
-    font-size: 1rem;
+    top: 12px;
+    left: 12px;
+    font-size: 0.95rem;
   }
 
   /* Minimal changes - keep near desktop proportions */

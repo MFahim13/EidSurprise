@@ -8,9 +8,12 @@
     />
     <!-- iOS Web App Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <meta name="apple-mobile-web-app-title" content="Eid Mubarak" />
-    
+
     <meta name="title" content="🌙 Eid Mubarak, Bestie!" />
     <meta name="description" content="I made a little interactive surprise for you. Tap to open!" />
 
@@ -79,8 +82,10 @@
     <!-- Main Content Container -->
     <div class="content-container">
       <!-- Dynamic Time-Based Greeting -->
-      <div class="dynamic-greeting" id="dynamic-greeting">Good morning, Ayat! 🌅</div>
-      
+      <div class="dynamic-greeting" id="dynamic-greeting">
+        Good morning, Ayat! 🌅
+      </div>
+
       <!-- Mini Cat Character (Always Visible) -->
       <div class="mini-container" id="mini-container">
         <div class="cat-display" id="mini">
@@ -94,12 +99,22 @@
       <!-- Main interaction area -->
       <div class="interactions-area" id="interactions-area">
         <!-- Envelope -->
-        <div class="envelope-container" id="envelope-container" style="display: none;">
+        <div
+          class="envelope-container"
+          id="envelope-container"
+          style="display: none"
+        >
           <div class="envelope" id="envelope">
             <div class="envelope-front">✉️</div>
           </div>
           <div class="letter" id="letter">
-            <button class="close-letter-btn" id="close-letter-btn" aria-label="Close letter">✕</button>
+            <button
+              class="close-letter-btn"
+              id="close-letter-btn"
+              aria-label="Close letter"
+            >
+              ✕
+            </button>
             <div class="letter-content">
               <h2>🌙 Eid Mubarak, My Dear Bestie.</h2>
               <p>
@@ -132,7 +147,13 @@
             <div class="gift-bow">🎀</div>
           </div>
           <div class="gift-opened" id="gift-opened" style="display: none">
-            <button class="close-gift-btn" id="close-gift-btn" aria-label="Close gift card">✕</button>
+            <button
+              class="close-gift-btn"
+              id="close-gift-btn"
+              aria-label="Close gift card"
+            >
+              ✕
+            </button>
 
             <!-- Unified Bouquet Display (emerges from gift) -->
             <div
@@ -186,10 +207,7 @@
             <span class="music-text">♪ Your Fav Song ♪</span>
           </button>
           <audio id="audio-player" preload="auto">
-            <source
-              src="blackSwan.mp3"
-              type="audio/mpeg"
-            />
+            <source src="blackSwan.mp3" type="audio/mpeg" />
           </audio>
         </div>
       </div>

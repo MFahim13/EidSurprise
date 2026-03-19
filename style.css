@@ -1605,6 +1605,10 @@ button:active {
     padding: 15px;
   }
 
+  .mini-container {
+    margin-top: 40px;
+  }
+
   /* Minimal changes - keep near desktop proportions */
   .content-container {
     padding: 15px;
@@ -1737,6 +1741,10 @@ button:active {
 @media (min-width: 481px) and (max-width: 768px) {
   .content-container {
     padding: 25px;
+  }
+
+  .mini-container {
+    margin-top: 20px;
   }
 
   .interactions-area {
